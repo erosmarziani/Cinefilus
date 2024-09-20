@@ -2,7 +2,10 @@
 const API_KEY = '008dc80f7978770f2a8420b4a573fbab'
 const BASE_URL = 'https://api.themoviedb.org/3/movie/popular'
 
+const GENEROS_URL = 'https://api.themoviedb.org/3/genre/movie/list'
+
 module.exports = {
   BASE_URL,
-  API_KEY
+  API_KEY,
+  GENEROS_URL
 }

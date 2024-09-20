@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { getAllPeliculas } = require('../controllers/peliculas') // Ajustar la ruta de importación en caso que sea necesario.
+const { getAllPeliculas, getPeliculaPorID } = require('../controllers/peliculas') // Ajustar la ruta de importación en caso que sea necesario.
 
 const rutas = Router()
 

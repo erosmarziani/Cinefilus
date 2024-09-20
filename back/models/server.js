@@ -16,8 +16,8 @@ class Server {
   // definimos la ruta -> es la que va ir en el navegador ->/peliculas
   rutas () {
     this.app.use('/peliculas', require('../routes/peliculas'))
+    this.app.use('/generos', require('../routes/generos'))
   }
-
   listen () {
     this.app.listen(this.port, () => {
       console.log(`La API está escuchando en el puerto ${this.port}`)
