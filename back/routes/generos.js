@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const {getAllGeneros } = require('../controllers/generos') // Ajustar la ruta de importación en caso que sea necesario.
+const {getAllGeneros,getGeneroPorID } = require('../controllers/generos') // Ajustar la ruta de importación en caso que sea necesario.
 
 const rutas = Router()
 
@@ -7,4 +7,6 @@ const rutas = Router()
 // definir ruta -> aun no se entiende el objetivo de esto.
 rutas.get('/', getAllGeneros)
 
+//Ruta para buscar genero por id
+rutas.get('/:id', getGeneroPorID)
 module.exports = rutas
