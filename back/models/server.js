@@ -16,7 +16,7 @@ class Server {
   // definimos la ruta -> es la que va ir en el navegador ->/peliculas
   rutas () {
     this.app.use('/peliculas', require('../routes/peliculas'))
-    this.app.use('/generos', require('../routes/generos'))
+    this.app.use('/upcoming_movies', require('../routes/upcoming_movies'))
   }
   listen () {
     this.app.listen(this.port, () => {
