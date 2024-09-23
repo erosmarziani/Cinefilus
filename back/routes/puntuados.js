@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { getPuntuados, getPuntuadoById } = require('../controllers/puntuados') // Ajustar la ruta de importación en caso que sea necesario.
+const { getPuntuados, getPuntuadoById, getPuntuadosByLanguage } = require('../controllers/puntuados') // Ajustar la ruta de importación en caso que sea necesario.
 
 const rutas = Router()
 
@@ -7,5 +7,6 @@ const rutas = Router()
 // definir ruta -> aun no se entiende el objetivo de esto.
 rutas.get('/', getPuntuados)
 rutas.get('/:id', getPuntuadoById)
+rutas.get('/top-rated/language', getPuntuadosByLanguage)
 
 module.exports = rutas

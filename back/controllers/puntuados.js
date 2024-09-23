@@ -4,7 +4,7 @@ const { request, response } = require('express')
 const { BASE_URL, API_KEY } = require('../constants/constants')
 
 
-// 1er paso definir el metodo y hacer la request
+// 1. Buscar 50 peliculas puntuadas.
 const getPuntuados = async (req = request, res = response) => {
     try {
     
@@ -82,10 +82,38 @@ const getPuntuadoById = async (req = request, res = response) => {
       });
     }
   };
-  
+
+// 3. Buscar 50 peliculas puntuadas por idioma
+const getPuntuadosByLanguage = async (req = request, res = response) => {
+  const baseUrl = `${BASE_URL}movie/top_rated`;
+  const { language = 'en-US' } = req.query; // Obtener el parámetro de idioma (por defecto 'en-US')
+
+  try {
+    const response = await axios.get(baseUrl, {
+      params: {
+        api_key: API_KEY,
+        language, // Idioma proporcionado o 'en-US' por defecto
+        page: 1,  // Página 1 por defecto
+      },
+    });
+
+    // Enviar la respuesta con las películas en el idioma solicitado
+    res.status(200).json({
+      msg: `Películas en ${language}`,
+      data: response.data.results,
+    });
+  } catch (error) {
+    console.error('Error al obtener películas por idioma:', error.message);
+    res.status(400).json({
+      msg: 'Error al obtener películas por idioma',
+      error: error.message,
+    });
+  }
+};
 
 // exportamos la request que hicimos.
 module.exports = {
   getPuntuados,
-  getPuntuadoById
+  getPuntuadoById,
+  getPuntuadosByLanguage
 }
