@@ -92,7 +92,9 @@ const getUpcomingMoviePorID = async (req = request, res = response) => {
         const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}`;
 
         const { data } = await axios.get(URL);
-        let allUpcomingMovies = data.results; 
+        let allUpcomingMovies = data.results;
+
+      console.log("Películas recibidas:", allUpcomingMovies);
 
         //Filtrar por clasificacion de edad
         if (req.query.adult !== undefined) { // Verifica si el parámetro está presente
@@ -102,7 +104,8 @@ const getUpcomingMoviePorID = async (req = request, res = response) => {
           
         //Filtrar por idioma
         if(req.query.original_language){
-            allUpcomingMovies = allUpcomingMovies.filter(movie => movie.original_language === req.query.original_language);
+          const originalLanguage = req.query.original_language.trim()
+            allUpcomingMovies = allUpcomingMovies.filter(movie => movie.original_language === originalLanguage);
         }
 
         return res.status(200).json({
