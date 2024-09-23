@@ -5,28 +5,51 @@ const { API_KEY, UPCOMING_MOVIES_URL } = require('../constants/constants')
 
 // 1er paso definir el metodo y hacer la request.
 // Metodo para obtener todas las películas
-const getAllUpcomingMovies = async (req = request, res = response) => {
-  try {
-    const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}` // Construir la URL con la API key
+  const getAllUpcomingMovies = async (req = request, res = response) => {
+    try {
+      const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}` // Construir la URL con la API key
 
-    // Realizar la petición a la API
-    const { data } = await axios.get(URL)
+      const totalPeliculas = 50 
+      let listaPeliculasProximas = []
+      let page = 1
 
-    // Enviar la respuesta con los datos obtenidos
-    return res.status(200).json({
-      msg: 'Peliculas proximas a estrenar obtenidas correctamente',
-      data
-    })
-  } catch (error) {
-    // Manejo de errores
-    console.error('Error al obtener las peliculas proximas a estrenar:', error.message)
+      while (listaPeliculasProximas.length < totalPeliculas) {
+        const { data } = await axios.get(`${URL}&page=${page}`);
+        
+        // Si no hay más películas, salir del bucle
+        if (!data.results.length) break;
 
-    return res.status(500).json({
-      msg: 'Error al obtener las peliculas proximas a estrenar',
-      error: error.message
-    })
+        listaPeliculasProximas = listaPeliculasProximas.concat(data.results); // Agregar resultados a la lista
+        page++; // Incrementar el número de página para la siguiente iteración
+
+        // Si la API tiene un límite de páginas, verifica si hemos alcanzado el último
+        if (page > data.total_pages) break; 
+      }
+
+      // Asegurarse de devolver al menos 50 películas
+      if (listaPeliculasProximas.length < totalPeliculas) {
+        return res.status(404).json({
+          msg: 'No se encontraron suficientes películas a estrenar.',
+          data: listaPeliculasProximas
+        });
+      }
+
+
+      // Enviar la respuesta con los datos obtenidos
+      return res.status(200).json({
+        msg: 'Peliculas proximas a estrenar obtenidas correctamente',
+        data: listaPeliculasProximas
+      })
+    } catch (error) {
+      // Manejo de errores
+      console.error('Error al obtener las peliculas proximas a estrenar:', error.message)
+
+      return res.status(500).json({
+        msg: 'Error al obtener las peliculas proximas a estrenar',
+        error: error.message
+      })
+    }
   }
-}
 
 const getUpcomingMoviePorID = async (req = request, res = response) => {
     try {
