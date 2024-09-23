@@ -3,6 +3,7 @@ const API_KEY = process.env.API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3'
 
 module.exports = {
-  BASE_URL,
-  API_KEY
+    BASE_URL,
+    API_KEY,
+
 }
