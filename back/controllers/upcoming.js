@@ -1,28 +1,35 @@
 const axios = require('axios')
 const { request, response } = require('express')
-const { API_KEY, UPCOMING_MOVIES_URL } = require('../constants/constants')
+const { API_KEY, BASE_URL } = require('../constants/constants')
 
-// 1er paso definir el metodo y hacer la request.
 // Metodo para obtener todas las películas
   const getAllUpcomingMovies = async (req = request, res = response) => {
-    try {
-      const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}` // Construir la URL con la API key
+    
+    const {lang, page=1, adult} = req.query
 
-      const totalPeliculas = 50 
-      let listaPeliculasProximas = []
-      let page = 1
+    console.log(req.query)
+    const params = 'movie/upcoming'
+    const totalPeliculas = 50 
+    let listaPeliculasProximas = []
+    let currentPage = page
+    
+    try {
 
       while (listaPeliculasProximas.length < totalPeliculas) {
-        const { data } = await axios.get(`${URL}&page=${page}`);
+        let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}` // Construir la URL con la API key
+        if(lang){
+          URL += `&language=${lang}`
+        }
         
-        // Si no hay más películas, salir del bucle
-        if (!data.results.length) break;
-
+        if(adult){
+          URL += `&include_adult=${adult}`
+        }
+        console.log(URL)
+        
+        const { data } = await axios.get(`${URL}&page=${currentPage}`);
+        
         listaPeliculasProximas = listaPeliculasProximas.concat(data.results); // Agregar resultados a la lista
-        page++; // Incrementar el número de página para la siguiente iteración
-
-        // Si la API tiene un límite de páginas, verifica si hemos alcanzado el último
-        if (page > data.total_pages) break; 
+        currentPage++; // Incrementar el número de página para la siguiente iteración 
       }
 
       // Asegurarse de devolver al menos 50 películas
@@ -32,8 +39,6 @@ const { API_KEY, UPCOMING_MOVIES_URL } = require('../constants/constants')
           data: listaPeliculasProximas
         });
       }
-
-
       // Enviar la respuesta con los datos obtenidos
       return res.status(200).json({
         msg: 'Peliculas proximas a estrenar obtenidas correctamente',
@@ -50,12 +55,14 @@ const { API_KEY, UPCOMING_MOVIES_URL } = require('../constants/constants')
     }
   }
 
+  //BUsca la pelicula proxima a estrenar por el ID
 const getUpcomingMoviePorID = async (req = request, res = response) => {
-    try {
-      const upcomingID = req.params.id; // Aquí obtienes el ID de la URL
-  
+  const params = 'movie/upcoming'
+  const upcomingID = req.params.id  
+
+    try {  
       // En lugar de hacer una petición a un URL incorrecto, busca los géneros primero
-      const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}`;
+      const URL = `${BASE_URL}/${params}?api_key=${API_KEY}`;
       
       // Realizar la petición a la API para obtener todos los géneros
       const { data } = await axios.get(URL);
@@ -86,45 +93,8 @@ const getUpcomingMoviePorID = async (req = request, res = response) => {
     }
   }
 
-  const getUpcomingMoviesWithFilters = async (req = request, res = response) => {
-      try{
-        const URL = `${UPCOMING_MOVIES_URL}?api_key=${API_KEY}`;
-
-        const { data } = await axios.get(URL);
-        let allUpcomingMovies = data.results;
-
-      console.log("Películas recibidas:", allUpcomingMovies);
-
-        //Filtrar por clasificacion de edad
-        if (req.query.adult !== undefined) { // Verifica si el parámetro está presente
-            const isAdult = req.query.adult === 'true'; // Convertir a booleano
-            allUpcomingMovies = allUpcomingMovies.filter(movie => movie.adult === isAdult);
-          }
-          
-        //Filtrar por idioma
-        if(req.query.original_language){
-          const originalLanguage = req.query.original_language.trim()
-            allUpcomingMovies = allUpcomingMovies.filter(movie => movie.original_language === originalLanguage);
-        }
-
-        return res.status(200).json({
-            msg: 'Peliculas a estrenar filtradas correctamente',
-            data: allUpcomingMovies
-        });
-    }catch(error){
-        console.error('Error al filtrar las peliculas a estrenar:', error.message);
-
-        return res.status(500).json({
-            msg: 'Error al filtrar las peliculas a estrenar',
-            error: error.message
-        });
-    }
-  }
-  
-
 // exportamos la request que hicimos.
 module.exports = {
  getAllUpcomingMovies,
  getUpcomingMoviePorID,
- getUpcomingMoviesWithFilters
 }
