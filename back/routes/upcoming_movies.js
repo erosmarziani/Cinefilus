@@ -3,12 +3,9 @@ const {getAllUpcomingMovies, getUpcomingMoviePorID, getUpcomingMoviesWithFilters
 
 const rutas = Router()
 
-//  2 paso
-// definir ruta -> aun no se entiende el objetivo de esto.
+//Rutas Eros
 rutas.get('/', getAllUpcomingMovies)
-
 rutas.get('/:id', getUpcomingMoviePorID)
-
 rutas.get('/filter', getUpcomingMoviesWithFilters)
 
 
