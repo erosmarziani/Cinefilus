@@ -56,7 +56,7 @@ const getPuntuadoById = async (req = request, res = response) => {
     const { id } = req.params; // Obtener el ID de los parámetros de la URL
   
     try {
-      const URL = `${BASE_URL}movie/${id}?api_key=${API_KEY}`;
+      const URL = `${BASE_URL}/movie/${id}?api_key=${API_KEY}`;
   
       // Realizar la petición a la API para obtener la película por ID
       const { data } = await axios.get(URL);
@@ -87,7 +87,7 @@ const getPuntuadoById = async (req = request, res = response) => {
 
 // 3. Buscar 50 peliculas puntuadas por idioma
 const getPuntuadosByLanguage = async (req = request, res = response) => {
-  const baseUrl = `${BASE_URL}movie/top_rated`;
+  const baseUrl = `${BASE_URL}/movie/top_rated`;
   const { language = 'en-US' } = req.query; // Obtener el parámetro de idioma (por defecto 'en-US')
 
   try {
