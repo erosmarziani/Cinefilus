@@ -18,5 +18,5 @@ para filtrar por pagina http://localhost:3000/api/v1/tv/trending/week?page=2
 
 Upcoming: 
 Para obtener como minimo 50 peliculas proximas a estrenar http://localhost:3000/upcoming
-Para obtener pelicula a estrenar por ID http://localhost:3000/upcoming/{id}
+Para obtener pelicula a estrenar por ID http://localhost:3000/upcoming/{id} EJ 917496
 Para filtrar por idioma http://localhost:3000/upcoming?lang={codigoIdioma} ejemplo : http://localhost:3000/upcoming?lang=es-ES 
