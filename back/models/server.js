@@ -17,8 +17,9 @@ class Server {
     rutas() {
         this.app.use('/popular', require('../routes/popular'))
         this.app.use('/puntuados', require('../routes/puntuados'))
-        this.app.use('/api/v1/tv', require('../routes/tvShows'));
-
+        this.app.use('/api/v1/tv', require('../routes/tvShows'))
+        this.app.use('/upcoming', require('../routes/upcoming'))
+        ;
     }
 
     listen() {

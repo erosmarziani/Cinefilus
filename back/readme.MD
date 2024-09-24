@@ -14,3 +14,9 @@ Para mostrar mas de 50 programas de tv en tendencia http://localhost:3000/api/v1
 para obtener programa filtrado por ID http://localhost:3000/api/v1/tv/194764
 
 para filtrar por pagina http://localhost:3000/api/v1/tv/trending/week?page=2
+
+
+Upcoming: 
+Para obtener como minimo 50 peliculas proximas a estrenar http://localhost:3000/upcoming
+Para obtener pelicula a estrenar por ID http://localhost:3000/upcoming/{id}
+Para filtrar por idioma http://localhost:3000/upcoming?lang={codigoIdioma} ejemplo : http://localhost:3000/upcoming?lang=es-ES 
