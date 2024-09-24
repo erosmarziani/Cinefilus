@@ -16,10 +16,10 @@ para obtener programa filtrado por ID http://localhost:3000/api/v1/tv/194764
 para filtrar por pagina http://localhost:3000/api/v1/tv/trending/week?page=2
 
 Popular:
-Upcoming: 
+
 Para obtener como minimo 50 peliculas proximas a estrenar http://localhost:3000/popular
 Para obtener imagenes de peliculas por ID http://localhost:3000/popular/{id} EJ 5
-Para filtrar por idioma http://localhost:3000/upcoming?lang={codigoIdioma} ejemplo : http://localhost:3000/popular?lang=es-ES
+Para filtrar por idioma http://localhost:3000/popular?lang={codigoIdioma} ejemplo : http://localhost:3000/popular?lang=es-ES
 
 
 Upcoming: 
