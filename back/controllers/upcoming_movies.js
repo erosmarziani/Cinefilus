@@ -1,4 +1,3 @@
-// controlador.js
 const axios = require('axios')
 const { request, response } = require('express')
 const { API_KEY, UPCOMING_MOVIES_URL } = require('../constants/constants')
