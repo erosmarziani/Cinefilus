@@ -1,11 +1,19 @@
 ## API con express creada con NodeJS
+--------------------------------------------------------------------------------------------
+
+DATOS PARA PONER EN EL ARCHIVO .env: 
+
+PORT=3000
+API_KEY=ec515e4aaa66cb32886fbc0b5760a352
+
+--------------------------------------------------------------------------------------------
 
 Puntuados:
-para obtener lista de 50 puntuados: "http://localhost:3000/puntuados"
+Para obtener lista de 50 puntuados: "http://localhost:3000/puntuados"
 
-para obtener lista de puntuados por id: "http://localhost:3000/puntuados/{id}"
+Para obtener lista de puntuados por id: "http://localhost:3000/puntuados/{id}"
 
-para obtener lista de puntuados por idioma: "http://localhost:3000/puntuados/top-rated/language?language=es-ES"
+Para obtener lista de puntuados por idioma: "http://localhost:3000/puntuados/top-rated/language?language=es-ES"
 
 TvShows:
 
