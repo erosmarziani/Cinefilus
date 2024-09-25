@@ -11,14 +11,22 @@ API_KEY=ec515e4aaa66cb32886fbc0b5760a352
 
 --------------------------------------------------------------------------------------------
 
-Puntuados:
+ENDPOINTS
+
+nombre y usuario github:
+Puntuados(Bayon Marcos - cosba2)
+TvShows(Hernandez Joaquin - JoaquinHernandez04)
+Popular(Rios Facundo - alenchufacundo)
+Upcoming(Marziani Eros - ErosMarziani)
+
+Puntuados(Bayon Marcos - cosba2):
 Para obtener lista de 50 puntuados: "http://localhost:3000/puntuados"
 
 Para obtener lista de puntuados por id: "http://localhost:3000/puntuados/{id}"
 
 Para obtener lista de puntuados por idioma: "http://localhost:3000/puntuados/top-rated/language?language=es-ES"
 
-TvShows:
+TvShows():
 
 Para mostrar mas de 50 programas de tv en tendencia http://localhost:3000/api/v1/tv/trending/week
 
