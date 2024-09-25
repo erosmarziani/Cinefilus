@@ -1,4 +1,7 @@
-## API con express creada con NodeJS
+REPOSITORIO DE GITHUB: https://github.com/alenchufacundo/proyecto-labo-iv
+
+URL DE RENDER: 
+
 --------------------------------------------------------------------------------------------
 
 DATOS PARA PONER EN EL ARCHIVO .env: 
