@@ -20,28 +20,28 @@ Popular(Rios Facundo - alenchufacundo)
 Upcoming(Marziani Eros - ErosMarziani)
 
 Puntuados(Bayon Marcos - cosba2):
-Para obtener lista de 50 puntuados: "http://localhost:3000/puntuados"
+Para obtener lista de 50 puntuados: "https://proyecto-labo-iv-2.onrender.com/puntuados"
 
-Para obtener lista de puntuados por id: "http://localhost:3000/puntuados/{id}"
+Para obtener lista de puntuados por id: "https://proyecto-labo-iv-2.onrender.com/puntuados/500"
 
-Para obtener lista de puntuados por idioma: "http://localhost:3000/puntuados/top-rated/language?language=es-ES"
+Para obtener lista de puntuados por idioma: "https://proyecto-labo-iv-2.onrender.com/puntuados/top-rated/language?language=es-ES"
 
 TvShows():
 
-Para mostrar mas de 50 programas de tv en tendencia http://localhost:3000/api/v1/tv/trending/week
+Para mostrar mas de 50 programas de tv en tendencia https://proyecto-labo-iv-2.onrender.com/api/v1/tv/trending/week
 
-para obtener programa filtrado por ID http://localhost:3000/api/v1/tv/194764
+para obtener programa filtrado por ID https://proyecto-labo-iv-2.onrender.com/api/v1/tv/194764
 
-para filtrar por pagina http://localhost:3000/api/v1/tv/trending/week?page=2
+para filtrar por pagina https://proyecto-labo-iv-2.onrender.com/api/v1/tv/trending/week?page=2
 
 Popular:
 
-Para obtener como minimo 50 peliculas proximas a estrenar http://localhost:3000/popular
-Para obtener imagenes de peliculas por ID http://localhost:3000/popular/{id} EJ 5
-Para filtrar por idioma http://localhost:3000/popular?lang={codigoIdioma} ejemplo : http://localhost:3000/popular?lang=es-ES
+Para obtener como minimo 50 peliculas proximas a estrenar https://proyecto-labo-iv-2.onrender.com/popular
+Para obtener imagenes de peliculas por ID https://proyecto-labo-iv-2.onrender.com/popular/5 (EJ 5)
+Para filtrar por idioma http://localhost:3000/popular?lang={codigoIdioma} ejemplo : https://proyecto-labo-iv-2.onrender.com/popular?lang=es-ES
 
 
 Upcoming: 
-Para obtener como minimo 50 peliculas proximas a estrenar http://localhost:3000/upcoming
-Para obtener pelicula a estrenar por ID http://localhost:3000/upcoming/{id} EJ 917496
-Para filtrar por idioma http://localhost:3000/upcoming?lang={codigoIdioma} ejemplo : http://localhost:3000/upcoming?lang=es-ES 
+Para obtener como minimo 50 peliculas proximas a estrenar https://proyecto-labo-iv-2.onrender.com/upcoming
+Para obtener pelicula a estrenar por ID https://proyecto-labo-iv-2.onrender.com/upcoming/1062215 EJ 1062215
+Para filtrar por idioma http://localhost:3000/upcoming?lang={codigoIdioma} ejemplo : https://proyecto-labo-iv-2.onrender.com/upcoming?lang=es-ES
