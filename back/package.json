@@ -7,8 +7,7 @@
     "test": "",
     "start": "node app",
     "lint": "npx standard",
-    "lint:fix": "npx standard --fix",
-    "prepare": "husky"
+    "lint:fix": "npx standard --fix"
   },
   "author": "Sebastian Gañan",
   "license": "ISC",
