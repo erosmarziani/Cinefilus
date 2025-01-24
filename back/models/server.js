@@ -13,9 +13,7 @@ class Server {
 
   middleware() {
     // Habilitar CORS para todas las rutas
-    const cors = require('cors');
-    app.use(cors());
-
+    this.app.use(cors());
     // Middleware para servir contenido estático
     this.app.use(express.static('public'));
   }
