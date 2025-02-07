@@ -1,14 +1,14 @@
-// controlador.js
 const axios = require('axios')
 const { request, response } = require('express')
 const { BASE_URL, API_KEY } = require('../constants/constants')
 
-//  Buscar 50 actores
 const getAllActors = async (req = request, res = response) => {
+
   const { timeWindow = 'week', page = 1 } = req.query;
   const params = `trending/person/${timeWindow}`
   let allActors = []
   let currentPage = page
+
   try {
 
     while (allActors.length < 50) {
@@ -16,7 +16,6 @@ const getAllActors = async (req = request, res = response) => {
       let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}` // Construir la URL con la API key
 
       const { data } = await axios.get(URL)
-      console.log(data)
       if (!data || !data.results || data.results.length === 0) {
         break;
       }
