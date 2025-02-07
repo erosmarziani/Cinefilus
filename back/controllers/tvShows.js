@@ -1,40 +1,36 @@
 const axios = require('axios')
+const { request, response } = require('express')
 const { API_KEY, BASE_URL } = require('../constants/constants')
 
-// Método para obtener 50 o más programas de TV en tendencia
-// http://localhost:3000/api/v1/tv/trending/week
-const getTrendingTVShows = async (req, res) => {
+// Obtener programas de TV en tendencia (hasta 50 resultados)
+const getAllTrendingTVShows = async (req = request, res = response) => {
   try {
-    const { timeWidow = 'week' } = req.params
+    // Se usa req.query para obtener parámetros opcionales
+    const { timeWindow = 'week', page = 1 } = req.query 
 
-    // Realizar solicitudes a múltiples páginas
-    const requests = [
-      axios.get(
-        `${BASE_URL}/trending/tv/${timeWidow}?api_key=${API_KEY}&page=1`
-      ),
-      axios.get(
-        `${BASE_URL}/trending/tv/${timeWidow}?api_key=${API_KEY}&page=2`
-      ),
-      axios.get(
-        `${BASE_URL}/trending/tv/${timeWidow}?api_key=${API_KEY}&page=3`
-      )
-    ]
+    const params = `trending/tv/${timeWindow}`
+    let allTvShows = []
+    let currentPage = page // Convertir a número
 
-    // Esperar todas las solicitudes
-    const responses = await Promise.all(requests)
+    while (allTvShows.length < 50) {
+      const URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}`
 
-    // Combinar los resultados (más de 50)
-    const allResults = responses.flatMap((response) => response.data.results)
+      const { data } = await axios.get(URL)
+
+      if (!data || !data.results || data.results.length === 0) {
+        break // Si no hay más resultados, se detiene el ciclo
+      }
+
+      allTvShows = allTvShows.concat(data.results)
+      currentPage++
+    }
 
     return res.status(200).json({
       msg: 'Programas de TV en tendencia obtenidos correctamente',
-      data: allResults
+      data: allTvShows
     })
   } catch (error) {
-    console.error(
-      'Error al obtener los programas de TV en tendencia:',
-      error.message
-    )
+    console.error('Error al obtener los programas de TV en tendencia:', error.message)
     return res.status(500).json({
       msg: 'Error al obtener los programas de TV en tendencia',
       error: error.message
@@ -42,6 +38,9 @@ const getTrendingTVShows = async (req, res) => {
   }
 }
 
+module.exports = { getAllTrendingTVShows }
+
+/*
 // Obtener programa de TV por ID
 // http://localhost:3000/api/v1/tv/194764
 const getTVShowByID = async (req, res) => {
@@ -102,9 +101,8 @@ const getTrendingTVShowsByPage = async (req, res) => {
     })
   }
 }
+  */
 
 module.exports = {
-  getTrendingTVShows,
-  getTVShowByID,
-  getTrendingTVShowsByPage
+  getAllTrendingTVShows
 }

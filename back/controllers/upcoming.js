@@ -7,38 +7,35 @@ const getAllUpcomingMovies = async (req = request, res = response) => {
   const { lang, page = 1, adult } = req.query
 
   const params = 'movie/upcoming'
-  const totalPeliculas = 50
-  let listaPeliculasProximas = []
+  let allMovies = []
   let currentPage = page
 
-  try {
-    while (listaPeliculasProximas.length < totalPeliculas) {
+  try { 
+    while (allMovies.length < 50 ) {
       let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}` // Construir la URL con la API key
+
       if (lang) {
         URL += `&language=${lang}`
       }
-
       if (adult) {
         URL += `&include_adult=${adult}`
       }
-
+      
       const { data } = await axios.get(`${URL}&page=${currentPage}`)
+      
+      if (!data || !data.results || data.results.length === 0) {
+          break;
+      } 
 
-      listaPeliculasProximas = listaPeliculasProximas.concat(data.results) // Agregar resultados a la lista
+      allMovies = allMovies.concat(data.results) // Agregar resultados a la lista
       currentPage++ // Incrementar el número de página para la siguiente iteración
     }
 
-    // Asegurarse de devolver al menos 50 películas
-    if (listaPeliculasProximas.length < totalPeliculas) {
-      return res.status(404).json({
-        msg: 'No se encontraron suficientes películas a estrenar.',
-        data: listaPeliculasProximas
-      })
-    }
+  
     // Enviar la respuesta con los datos obtenidos
     return res.status(200).json({
       msg: 'Peliculas proximas a estrenar obtenidas correctamente',
-      data: listaPeliculasProximas
+      data: allMovies
     })
   } catch (error) {
     // Manejo de errores
@@ -51,6 +48,7 @@ const getAllUpcomingMovies = async (req = request, res = response) => {
   }
 }
 
+/*
 // BUsca la pelicula proxima a estrenar por el ID
 const getUpcomingMoviePorID = async (req = request, res = response) => {
   const params = 'movie/upcoming'
@@ -89,8 +87,9 @@ const getUpcomingMoviePorID = async (req = request, res = response) => {
   }
 }
 
+*/
+
 // exportamos la request que hicimos.
 module.exports = {
-  getAllUpcomingMovies,
-  getUpcomingMoviePorID
+  getAllUpcomingMovies
 }

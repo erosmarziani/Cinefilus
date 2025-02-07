@@ -51,6 +51,7 @@ const getAllPopularMovies = async (req = request, res = response) => {
     })
   }
 }
+/*
 //  obtener imágenes de una película por movie_id
 const getMovieImages = async (req = request, res = response) => {
   const { id } = req.params
@@ -81,9 +82,8 @@ const getMovieImages = async (req = request, res = response) => {
     })
   }
 }
+  */
 
 // Exportamos la función
 module.exports = {
-  getAllPopularMovies,
-  getMovieImages
-}
+  getAllPopularMovies}
