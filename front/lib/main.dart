@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/helpers/preferences.dart';
 import 'screens/home_screen.dart';
-import 'screens/add_movie_form_screen.dart'; // Importa la nueva pantalla
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +40,6 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/home',
       routes: {
         '/home': (context) => HomeScreen(onThemeChanged: _toggleTheme),
-        '/add-movie': (context) => AddMovieFormScreen(), // Nueva ruta para agregar películas
       },
     );
   }

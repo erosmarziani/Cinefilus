@@ -11,6 +11,7 @@ class BaseScreen extends StatelessWidget {
   final Widget body; 
   final Function(bool) onThemeChanged; // Función para el cambio de tema
 
+//Barra de navegacion y menu 
   const BaseScreen(
       {super.key, required this.body, required this.onThemeChanged});
 
@@ -122,7 +123,7 @@ class HomeScreen extends StatelessWidget {
       {
         'image':
             '../../assets/images/clasicos/pulpfiction.jpg',
-        'name': 'Clasicos del Cine',
+        'name': 'Proximos estrenos',
         'screen': ClassicMoviesScreen(onThemeChanged: onThemeChanged),
       },
       {

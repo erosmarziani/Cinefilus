@@ -64,7 +64,7 @@ class _ClassicMoviesScreenState extends State<ClassicMoviesScreen> {
   }
 
   Future<void> fetchMovies() async {
-    final url = Uri.parse("http://localhost:3001/upcoming"); // Ajusta la URL según tu API
+    final url = Uri.parse("http://localhost:3000/api/v1/upcoming?language=es-ES");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
