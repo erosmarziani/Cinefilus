@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const cors = require('cors');
 
 class Server {
@@ -11,19 +11,18 @@ class Server {
     this.rutas();
   }
 
-  middleware() {
-    // Habilitar CORS para todas las rutas
+  middleware () {
     this.app.use(cors());
-    // Middleware para servir contenido estático
-    this.app.use(express.static('public'));
+    this.app.use(express.static('public'))
   }
 
-  rutas() {
-    // Rutas para diferentes endpoints
-    this.app.use('/popular', require('../routes/popular')); // Rios Facundo
-    this.app.use('/puntuados', require('../routes/puntuados')); // Bayon Marcos
-    this.app.use('/api/v1/tv', require('../routes/tvShows')); // Hernandez Joaquin
-    this.app.use('/upcoming', require('../routes/upcoming')); // Eros Marziani
+  // 3 paso.
+  // definimos la ruta -> es la que va ir en el navegador ->/peliculas
+  rutas () {
+    this.app.use('/api/v1/popular', require('../routes/popular')) 
+    this.app.use('/api/v1/actors', require('../routes/actors')) 
+    this.app.use('/api/v1/tv', require('../routes/tvShows')) 
+    this.app.use('/api/v1/upcoming', require('../routes/upcoming')) 
   }
 
   listen() {
