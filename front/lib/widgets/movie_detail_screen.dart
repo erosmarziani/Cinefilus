@@ -1,56 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_base/helpers/helpers.dart';
 
-/// Función para extraer el año de "release_date" (formato "YYYY-MM-DD")
-String getYear(String releaseDate) {
-  if (releaseDate != null && releaseDate.length >= 4) {
-    return releaseDate.substring(0, 4);
-  }
-  return 'N/D';
-}
-
-/// Función para mapear genre_ids a nombres de géneros
-String getGenres(List<dynamic> genreIds) {
-  final Map<int, String> genreMapping = {
-    28: 'Acción',
-    12: 'Aventura',
-    16: 'Animación',
-    35: 'Comedia',
-    80: 'Crimen',
-    99: 'Documental',
-    18: 'Drama',
-    10751: 'Familia',
-    14: 'Fantasía',
-    36: 'Historia',
-    27: 'Terror',
-    10402: 'Música',
-    9648: 'Misterio',
-    10749: 'Romance',
-    878: 'Ciencia Ficción',
-    10770: 'TV',
-    53: 'Thriller',
-    10752: 'Guerra',
-    37: 'Oeste',
-  };
-
-  List<String> genres = [];
-  if (genreIds != null) {
-    for (var id in genreIds) {
-      genres.add(genreMapping[id] ?? 'Desconocido');
-    }
-  }
-  return genres.join(', ');
-}
-
-class ClassicScreen extends StatefulWidget {
+class MovieDetailScreen extends StatefulWidget {
   final Map<String, dynamic> movie;
 
-  const ClassicScreen({super.key, required this.movie});
+  const MovieDetailScreen({super.key, required this.movie});
 
   @override
-  _ClassicScreenState createState() => _ClassicScreenState();
+  _MovieDetailScreen createState() => _MovieDetailScreen();
 }
 
-class _ClassicScreenState extends State<ClassicScreen> {
+class _MovieDetailScreen extends State<MovieDetailScreen> {
   bool isFavorite = false;
   String personalNote = '';
   final TextEditingController _controller = TextEditingController();
@@ -91,7 +51,7 @@ class _ClassicScreenState extends State<ClassicScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(movie['title'] ?? "Sin título"),
+        title: Text(movie['title'] ?? movie['name'] ?? "Sin título"),
         backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
       ),
       body: Stack(

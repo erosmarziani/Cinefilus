@@ -1,4 +1,4 @@
-import 'dart:developer';
+/*import 'dart:developer';
 import 'package:flutter_application_base/mocks/people_mock.dart' show elements;
 import 'package:flutter/material.dart';
 
@@ -192,3 +192,4 @@ class _CustomListScreenState extends State<CustomListScreen> {
     );
   }
 }
+*/

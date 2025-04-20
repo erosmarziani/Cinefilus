@@ -48,47 +48,6 @@ const getAllUpcomingMovies = async (req = request, res = response) => {
   }
 }
 
-/*
-// BUsca la pelicula proxima a estrenar por el ID
-const getUpcomingMoviePorID = async (req = request, res = response) => {
-  const params = 'movie/upcoming'
-  const upcomingID = req.params.id
-
-  try {
-    // En lugar de hacer una petición a un URL incorrecto, busca los géneros primero
-    const URL = `${BASE_URL}/${params}?api_key=${API_KEY}`
-
-    // Realizar la petición a la API para obtener todos los géneros
-    const { data } = await axios.get(URL)
-    const allUpcomingMovies = data.results // Asumimos que 'data' tiene la propiedad 'genres'
-
-    // Buscar el género por ID
-    const upcomingMovie = allUpcomingMovies.find(g => g.id === parseInt(upcomingID)) // Asegúrate de comparar como número
-
-    if (upcomingMovie) {
-      return res.status(200).json({
-        msg: 'Pelicula a estrenar obtenida correctamente',
-        data: upcomingMovie // Envía el género encontrado
-      })
-    } else {
-      return res.status(404).json({
-        msg: 'Pelicula a estrenar no encontrada',
-        error: 'No existe una pelicula a estrenar con este ID'
-      })
-    }
-  } catch (error) {
-    // Manejo de errores
-    console.error('Error al obtener la pelicula a estrenar:', error.message)
-
-    return res.status(500).json({
-      msg: 'Error al obtener la pelicula a estrenar',
-      error: error.message
-    })
-  }
-}
-
-*/
-
 // exportamos la request que hicimos.
 module.exports = {
   getAllUpcomingMovies

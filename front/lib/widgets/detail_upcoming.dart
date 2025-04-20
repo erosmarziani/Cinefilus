@@ -1,4 +1,4 @@
-import 'dart:convert';
+/*import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_base/screens/movie_rating_screen.dart';
@@ -117,3 +117,4 @@ class _PopularMoviesScreenState extends State<PopularMoviesScreen> {
     );
   }
 }
+*/

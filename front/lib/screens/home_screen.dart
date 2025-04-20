@@ -1,90 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/helpers/preferences.dart';
-import 'package:flutter_application_base/screens/clasic_movies_screen.dart';
+import 'package:flutter_application_base/models/profile_option.dart';
+import 'package:flutter_application_base/screens/tvshows_screen.dart';
+import 'package:flutter_application_base/screens/upcoming_movies_screen.dart';
 import 'package:flutter_application_base/screens/actors_screen.dart';
 import 'package:flutter_application_base/widgets/HoverProfile.dart';
 import 'popular_movies_screen.dart';
 
-import 'movie_detail_list_screen.dart'; 
 // Estructura base para todas las pantallas
 class BaseScreen extends StatelessWidget {
-  final Widget body; 
-  final Function(bool) onThemeChanged; // Función para el cambio de tema
+  final Widget body;
+  final Function(bool) onThemeChanged;
 
-//Barra de navegacion y menu 
-  const BaseScreen(
-      {super.key, required this.body, required this.onThemeChanged});
+  const BaseScreen({super.key, required this.body, required this.onThemeChanged});
 
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor:
-            brightness == Brightness.dark ? Colors.black : Colors.cyan,
-        elevation: 0,
-        title: const Text(
-          'YOUFLIX',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'Cinéfilus ',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
-      ),
       drawer: Drawer(
-        backgroundColor:
-            brightness == Brightness.dark ? Colors.black : Colors.cyan,
+        backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Container(
               height: 80,
               decoration: BoxDecoration(
-                color: brightness == Brightness.dark
-                    ? Colors.black54
-                    : Colors.cyan,
+                color: brightness == Brightness.dark ? Colors.black54 : Colors.cyan,
               ),
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: const Text(
                 'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.home, color: Colors.white),
-              title: Text(
-                'Home',
-                style: TextStyle(color: textColor),
-              ),
+              title: Text('Home', style: TextStyle(color: textColor)),
               onTap: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        HomeScreen(onThemeChanged: onThemeChanged),
+                    builder: (context) => HomeScreen(onThemeChanged: onThemeChanged),
                   ),
-                  (route) => false, // Remueve todas las rutas anteriores
                 );
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.nightlight_round, color: Colors.white),
-              title: Text(
-                'Modo Oscuro',
-                style: TextStyle(color: textColor),
-              ),
-              trailing: Switch(
-                value: Preferences.darkmode,
-                onChanged: onThemeChanged,
-                activeColor: Colors.red,
-              ),
+            FutureBuilder<bool>(
+              future: Preferences.getDarkMode(), // Usa FutureBuilder para cargar la preferencia
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const CircularProgressIndicator(); // Muestra un loader mientras se obtiene el dato
+                return ListTile(
+                  leading: const Icon(Icons.nightlight_round, color: Colors.white),
+                  title: Text('Modo Oscuro', style: TextStyle(color: textColor)),
+                  trailing: Switch(
+                    value: snapshot.data ?? false,
+                    onChanged: onThemeChanged,
+                    activeColor: Colors.red,
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -103,37 +90,29 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
 
-    final profiles = [
-      {
-        'image':
-            '../../assets/images/populares/destacados.png',
-        'name': 'Películas Populares',
-        'screen': PopularMoviesScreen(onThemeChanged: onThemeChanged),
-      },
-      {
-        'image':
-            '../../assets/images/detalle/parasite.jpg',
-        'name': 'Detalle de peliculas',
-        'screen': MovieDetailListScreen(onThemeChanged: onThemeChanged),
-      },
-      
-      {
-        'image':
-            '../../assets/images/clasicos/pulpfiction.jpg',
-        'name': 'Proximos estrenos',
-        'screen': ClassicMoviesScreen(onThemeChanged: onThemeChanged),
-      },
-      {
-        'image':
-            '../../assets/images/actores/mainactores.png',
-        'name': 'Mejores Actores',
-        'screen': ActorsScreen(
-          onThemeChanged: onThemeChanged,
-        ),
-      },
+    final List<ProfileOption> profiles = [
+      ProfileOption(
+        image: 'assets/images/populares/destacados.png',
+        name: 'Películas Populares',
+        screen: PopularScreen(onThemeChanged: onThemeChanged),
+      ),
+      ProfileOption(
+        image: 'assets/images/detalle/parasite.jpg',
+        name: 'Mejores Series',
+        screen: TvShowsScreen(onThemeChanged: onThemeChanged),
+      ),
+      ProfileOption(
+        image: 'assets/images/clasicos/pulpfiction.jpg',
+        name: 'Próximos estrenos',
+        screen: UpcomingScreen(onThemeChanged: onThemeChanged),
+      ),
+      ProfileOption(
+        image: 'assets/images/actores/mainactores.png',
+        name: 'Mejores Actores',
+        screen: ActorsScreen(onThemeChanged: onThemeChanged),
+      ),
     ];
 
     return BaseScreen(
@@ -144,11 +123,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             "¿Qué deseas explorar?",
-            style: TextStyle(
-              fontSize: 20,
-              color: textColor,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, color: textColor, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 30),
           Expanded(
@@ -164,14 +139,13 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final profile = profiles[index];
                 return HoverProfile(
-                  image: profile['image'] as String,
-                  name: profile['name'] as String,
+                  image: profile.image,
+                  name: profile.name,
                   textColor: textColor,
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => profile['screen'] as Widget),
+                      MaterialPageRoute(builder: (context) => profile.screen),
                     );
                   },
                 );
@@ -179,65 +153,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// Pantallas individuales
-
-class TrendingMoviesScreen extends StatelessWidget {
-  final Function(bool) onThemeChanged;
-
-  const TrendingMoviesScreen({super.key, required this.onThemeChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScreen(
-      onThemeChanged: onThemeChanged,
-      body: const Center(child: Text('Aquí van las películas del momento')),
-    );
-  }
-}
-
-class PopularImagesScreen extends StatelessWidget {
-  final Function(bool) onThemeChanged;
-
-  const PopularImagesScreen({super.key, required this.onThemeChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScreen(
-      onThemeChanged: onThemeChanged,
-      body: const Center(child: Text('Aquí van las imágenes populares')),
-    );
-  }
-}
-
-class BestActorsScreen extends StatelessWidget {
-  final Function(bool) onThemeChanged;
-
-  const BestActorsScreen({super.key, required this.onThemeChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScreen(
-      onThemeChanged: onThemeChanged,
-      body: const Center(child: Text('Aquí van los mejores actores')),
-    );
-  }
-}
-class MovieDetailScreen extends StatelessWidget {
-  final Function(bool) onThemeChanged;
-
-  const MovieDetailScreen({super.key, required this.onThemeChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScreen(
-      onThemeChanged: onThemeChanged,
-      body: const Center(
-        child: Text('Aquí van los detalles de la película'),
       ),
     );
   }

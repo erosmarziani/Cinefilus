@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 class MovieRatingScreen extends StatefulWidget {
   final Map<String, dynamic> movie;
@@ -124,3 +124,4 @@ class _MovieRatingScreenState extends State<MovieRatingScreen> {
     );
   }
 }
+*/

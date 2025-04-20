@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_base/models/actor.dart';
 
 class ActorCard extends StatelessWidget {
-  final Map<String, dynamic> actor;
+  final Actor actor;
   final Color textColor;
-  final VoidCallback onTap; // Función que se llama cuando se hace tap en la tarjeta
+  final VoidCallback onTap;
 
   const ActorCard({
     super.key,
     required this.actor,
     required this.textColor,
-    required this.onTap, // Se pasa la función como parámetro
+    required this.onTap,
   });
 
   @override
@@ -21,26 +22,24 @@ class ActorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: onTap, // Llamar a la función onTap cuando se hace tap en la tarjeta
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Imagen del actor (si hay)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  actor['image'] ?? 'https://via.placeholder.com/150',
+                  "https://image.tmdb.org/t/p/w200${actor.profilePath}",
                   width: double.infinity,
-                  height: 150,
+                  height: 50,
                   fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 12),
-              // Nombre del actor
               Text(
-                actor['name'],
+                actor.name ?? 'Nombre no disponible',
                 style: TextStyle(
                   color: textColor,
                   fontSize: 18,
@@ -48,9 +47,8 @@ class ActorCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              // Descripción corta
               Text(
-                actor['description'],
+                actor.name ?? 'Descripción no disponible',
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: textColor),
@@ -62,4 +60,3 @@ class ActorCard extends StatelessWidget {
     );
   }
 }
-
