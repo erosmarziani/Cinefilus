@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final Map<String, dynamic> movie;
@@ -84,3 +84,5 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 }
+
+*/
