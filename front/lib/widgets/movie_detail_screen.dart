@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/helpers/helpers.dart';
+import 'package:flutter_application_base/models/movies.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-  final Map<String, dynamic> movie;
+  final Movie movie;
 
   const MovieDetailScreen({super.key, required this.movie});
 
@@ -34,25 +35,26 @@ class _MovieDetailScreen extends State<MovieDetailScreen> {
     final textColor = Colors.white;
 
     // Construir la URL de la imagen (poster)
-    final posterPath = movie['poster_path'];
+    final posterPath = movie.posterPath;
     final imageUrl = posterPath != null
         ? "https://image.tmdb.org/t/p/w500$posterPath"
         : null;
 
     // Extraer el año desde "release_date"
-    final releaseDate = movie['release_date'] ?? '';
-    final year = getYear(releaseDate);
+    final year = movie.releaseDate.year.toString();
+    ;
 
     // Convertir genre_ids a nombres de géneros
-    final genres = movie['genre_ids'] != null ? getGenres(movie['genre_ids']) : 'Desconocido';
+    final genres = getGenres(movie.genreIds);
 
     // Usar "overview" como descripción, ya que es lo que devuelve la API
-    final description = movie['overview'] ?? 'No hay descripción disponible.';
+    final description = movie.overview;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(movie['title'] ?? movie['name'] ?? "Sin título"),
-        backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
+        title: Text(movie.title),
+        backgroundColor:
+            brightness == Brightness.dark ? Colors.black : Colors.cyan,
       ),
       body: Stack(
         children: [
@@ -80,7 +82,7 @@ class _MovieDetailScreen extends State<MovieDetailScreen> {
                 const SizedBox(height: 16),
                 // Título de la película
                 Text(
-                  movie['title'] ?? "Sin título",
+                  movie.title,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -90,7 +92,7 @@ class _MovieDetailScreen extends State<MovieDetailScreen> {
                 const SizedBox(height: 8),
                 // Puntuación y votos
                 Text(
-                  'Puntuación: ${movie['vote_average']} | Votos: ${movie['vote_count']}',
+                  'Puntuación: ${movie.voteAverage} | Votos: ${movie.voteCount}',
                   style: TextStyle(fontSize: 16, color: textColor),
                 ),
                 const SizedBox(height: 8),

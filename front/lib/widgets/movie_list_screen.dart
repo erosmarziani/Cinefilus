@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_base/models/movies.dart';
 import 'package:flutter_application_base/widgets/movie_detail_screen.dart';
 import 'package:flutter_application_base/helpers/helpers.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,12 @@ class MovieListScreen extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListScreen> {
   bool isLoading = true;
+  /*
   List<dynamic> movies = [];
   List<dynamic> filteredMovies = [];
+  */
+  List<Movie> movies = [];
+  List<Movie> filteredMovies = [];
   String searchQuery = '';
 
   @override
@@ -37,10 +42,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
+        /*
         final Map<String, dynamic> responseData = json.decode(response.body);
+        */
+        final movieResponse = movieFromJson(response.body);
         setState(() {
-          movies = responseData['data'];
-          filteredMovies = movies;
+          movies = movieResponse.data;
+          filteredMovies = movieResponse.data;
           isLoading = false;
         });
       } else {
@@ -65,8 +73,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
     setState(() {
       searchQuery = query.toLowerCase();
       filteredMovies = movies.where((movie) {
-        final title = (movie['title'] ?? '').toLowerCase();
-        final genres = getGenres(movie['genre_ids']).toLowerCase();
+        final title = (movie.title).toLowerCase();
+        final genres = getGenres(movie.genreIds).toLowerCase();
         return title.contains(searchQuery) || genres.contains(searchQuery);
       }).toList();
     });
@@ -107,8 +115,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
                     itemCount: filteredMovies.length,
                     itemBuilder: (context, index) {
                       final movie = filteredMovies[index];
-                      final year = getYear(movie['release_date'] ?? '');
-                      final genres = getGenres(movie['genre_ids']);
+                      final year = movie.releaseDate.year.toString();
+                      final genres = getGenres(movie.genreIds);
 
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -118,17 +126,17 @@ class _MovieListScreenState extends State<MovieListScreen> {
                         elevation: 4,
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(16),
-                          leading: movie['poster_path'] != null
+                          leading: movie.posterPath != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: Image.network(
-                                    "https://image.tmdb.org/t/p/w200${movie['poster_path']}",
+                                    "https://image.tmdb.org/t/p/w200${movie.posterPath}",
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(Icons.image_not_supported),
+                                    errorBuilder: (context, error,
+                                            stackTrace) =>
+                                        const Icon(Icons.image_not_supported),
                                   ),
                                 )
                               : CircleAvatar(
@@ -136,9 +144,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                                   child: Icon(Icons.movie, color: Colors.white),
                                 ),
                           title: Text(
-                            movie['title'] ??
-                                movie['name'] ??
-                                "Título no disponible",
+                            movie.title,
                             style: TextStyle(
                               color: textColor,
                               fontWeight: FontWeight.bold,
@@ -149,15 +155,15 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Puntuación: ${movie['vote_average']} | Votos: ${movie['vote_count']}',
-                                style: TextStyle(
-                                    color: textColor, fontSize: 14),
+                                'Puntuación: ${movie.voteAverage} | Votos: ${movie.voteCount}',
+                                style:
+                                    TextStyle(color: textColor, fontSize: 14),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 'Año: $year | Género: $genres',
-                                style: TextStyle(
-                                    color: textColor, fontSize: 14),
+                                style:
+                                    TextStyle(color: textColor, fontSize: 14),
                               ),
                             ],
                           ),
