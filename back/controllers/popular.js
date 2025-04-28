@@ -1,6 +1,5 @@
 const axios = require('axios')
 const { request, response } = require('express')
-const { BASE_URL, API_KEY } = require('../constants/constants')
 
 // Función para obtener todas las películas populares con un solo filtro
 const getAllPopularMovies = async (req = request, res = response) => {
@@ -13,7 +12,7 @@ const getAllPopularMovies = async (req = request, res = response) => {
   try {
     // Aplicamos un while para obtener al menos 50 películas mediante paginación
     while (allMovies.length < 50) {
-      let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}`
+      let URL = `${process.env.BASE_URL}/${params}?api_key=${process.env.API_KEY}&page=${currentPage}`
 
       // Si se proporciona algún parámetro de filtro, lo agregamos a la URL
       if (lang) {

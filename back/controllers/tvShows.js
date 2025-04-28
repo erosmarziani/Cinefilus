@@ -1,6 +1,5 @@
 const axios = require('axios')
 const { request, response } = require('express')
-const { API_KEY, BASE_URL } = require('../constants/constants')
 
 const getAllTrendingTVShows = async (req = request, res = response) => {
   
@@ -13,7 +12,7 @@ const getAllTrendingTVShows = async (req = request, res = response) => {
 
     try{
     while (allTvShows.length < 50) {
-      let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}`
+      let URL = `${process.env.BASE_URL}/${params}?api_key=${process.env.API_KEY}&page=${currentPage}`
 
       const { data } = await axios.get(URL)
 

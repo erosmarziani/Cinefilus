@@ -1,6 +1,5 @@
 const axios = require('axios')
 const { request, response } = require('express')
-const { BASE_URL, API_KEY } = require('../constants/constants')
 
 const getAllActors = async (req = request, res = response) => {
 
@@ -13,7 +12,7 @@ const getAllActors = async (req = request, res = response) => {
 
     while (allActors.length < 50) {
       
-      let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}` // Construir la URL con la API key
+      let URL = `${process.env.BASE_URL}/${params}?api_key=${process.env.API_KEY}&page=${currentPage}` // Construir la URL con la API key
 
       const { data } = await axios.get(URL)
       if (!data || !data.results || data.results.length === 0) {

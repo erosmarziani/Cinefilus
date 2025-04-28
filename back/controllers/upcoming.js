@@ -1,6 +1,5 @@
 const axios = require('axios')
 const { request, response } = require('express')
-const { BASE_URL, API_KEY } = require('../constants/constants')
 
 // Metodo para obtener todas las películas
 const getAllUpcomingMovies = async (req = request, res = response) => {
@@ -12,7 +11,7 @@ const getAllUpcomingMovies = async (req = request, res = response) => {
 
   try { 
     while (allMovies.length < 50 ) {
-      let URL = `${BASE_URL}/${params}?api_key=${API_KEY}&page=${currentPage}` // Construir la URL con la API key
+      let URL = `${process.env.BASE_URL}/${params}?api_key=${process.env.API_KEY}&page=${currentPage}` // Construir la URL con la API key
 
       if (lang) {
         URL += `&language=${lang}`
