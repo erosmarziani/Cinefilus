@@ -64,22 +64,34 @@ class Series {
     });
 
     factory Series.fromJson(Map<String, dynamic> json) => Series(
-        backdropPath: json["backdrop_path"],
-        id: json["id"],
-        name: json["name"],
-        originalName: json["original_name"],
-        overview: json["overview"],
-        posterPath: json["poster_path"],
-        mediaType: json["media_type"],
-        adult: json["adult"],
-        originalLanguage: json["original_language"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
-        popularity: json["popularity"]?.toDouble(),
-        firstAirDate: DateTime.parse(json["first_air_date"]),
-        voteAverage: json["vote_average"]?.toDouble(),
-        voteCount: json["vote_count"],
-        originCountry: List<String>.from(json["origin_country"].map((x) => x)),
-    );
+  backdropPath: json["backdrop_path"] ?? '',
+  id: json["id"],
+  name: json["name"] ?? '',
+  originalName: json["original_name"] ?? '',
+  overview: json["overview"] ?? '',
+  posterPath: json["poster_path"] ?? '',
+  mediaType: json["media_type"] ?? '',
+  adult: json["adult"] ?? false,
+  originalLanguage: json["original_language"] ?? '',
+  genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+  popularity: (json["popularity"] ?? 0).toDouble(),
+  firstAirDate: _parseDate(json["first_air_date"]),
+  voteAverage: (json["vote_average"] ?? 0).toDouble(),
+  voteCount: json["vote_count"] ?? 0,
+  originCountry: List<String>.from(json["origin_country"].map((x) => x)),
+);
+
+// Función auxiliar para parsear fecha de forma segura
+static DateTime _parseDate(String? dateString) {
+  if (dateString == null || dateString.isEmpty) {
+    return DateTime(1900); // Fecha default si viene vacío
+  }
+  try {
+    return DateTime.parse(dateString);
+  } catch (e) {
+    return DateTime(1900); // Otra opción sería poner null si cambias el tipo a DateTime?
+  }
+}
 
     Map<String, dynamic> toJson() => {
         "backdrop_path": backdropPath,

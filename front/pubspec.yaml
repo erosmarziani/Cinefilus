@@ -24,6 +24,7 @@ dependencies:
   cupertino_icons: ^1.0.2  
   shared_preferences: ^2.3.2
   http: ^0.13.6 
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ flutter:
     - assets/images/
     - assets/avatars/
     - assets/images/populares/
+    - .env
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_base/widgets/movie_list_screen.dart';
 import 'package:flutter_application_base/widgets/tvseries_list_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TvShowsScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
@@ -9,8 +9,10 @@ class TvShowsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+            final String apiUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000/api/v1';
+
     return SeriesListScreen(
-      apiUrl: 'http://localhost:3000/api/v1/tv',
+      apiUrl: '$apiUrl/tv',
       screenTitle: 'Series',
       onThemeChanged: onThemeChanged,
     );

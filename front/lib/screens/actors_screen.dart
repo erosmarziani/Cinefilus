@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/widgets/actors_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ActorsScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
@@ -8,11 +10,12 @@ class ActorsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String apiUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000/api/v1';
+
     return ActorsListScreen(
-      apiUrl: 'http://localhost:3000/api/v1/actors',
+      apiUrl: '$apiUrl/actors',
       screenTitle: 'Actores',
       onThemeChanged: onThemeChanged,
     );
   }
 }
-

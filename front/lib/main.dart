@@ -3,9 +3,11 @@ import 'package:provider/provider.dart'; // Importa provider aquí
 import 'helpers/preferences.dart';
 import 'screens/home_screen.dart';
 import 'themes/default_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Preferences.initShared();
   runApp(ChangeNotifierProvider(
     create: (_) => ThemeProvider(),
