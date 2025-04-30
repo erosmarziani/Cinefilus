@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/models/actor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'animated_card.dart';
 
 class ActorDetailScreen extends StatefulWidget {
   final Actor actor;
 
   const ActorDetailScreen({super.key, required this.actor});
 
-  //state como en react.
   @override
   _ActorDetailScreenState createState() => _ActorDetailScreenState();
 }
@@ -30,7 +28,7 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
     });
   }
 
-  // Función para guardar el estado de favorito y q persista
+  // Función para guardar el estado de favorito y que persista
   Future<void> _saveFavoriteStatus(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(widget.actor.name, value);
@@ -56,9 +54,22 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundImage: NetworkImage(widget.actor.name),
+                child: ClipOval(
+                  child: Container(
+                    width: 160, // Aumenta el tamaño de la imagen
+                    height: 160, // Aumenta el tamaño de la imagen
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: widget.actor.profilePath != null
+                            ? NetworkImage(
+                                "https://image.tmdb.org/t/p/w200${widget.actor.profilePath}")
+                            : AssetImage('assets/images/default_avatar.png')
+                                as ImageProvider,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -72,40 +83,11 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                widget.actor.name,
+                widget.actor.originalName ?? "Nombre original no disponible",
                 style: TextStyle(fontSize: 16, color: textColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-              Text(
-                'Películas:',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 8),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 2,
-                ),
-                itemCount: widget.actor.name.length,
-                itemBuilder: (context, index) {
-                  return AnimatedCard(
-                    movieTitle: widget.actor.name[index],
-                    textColor: textColor,
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              // Switch para marcar como favorito
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

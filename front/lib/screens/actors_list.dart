@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/models/actor.dart';
 import 'package:flutter_application_base/screens/home_screen.dart';
-import 'actor_card.dart';
+import '../widgets/actor_card.dart';
 import 'actor_detail.dart';
 import 'package:http/http.dart' as http;
 

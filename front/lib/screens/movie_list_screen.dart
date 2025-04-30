@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/models/movies.dart';
-import 'package:flutter_application_base/widgets/movie_detail_screen.dart';
+import 'package:flutter_application_base/screens/movie_detail_screen.dart';
 import 'package:flutter_application_base/helpers/helpers.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,10 +23,6 @@ class MovieListScreen extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListScreen> {
   bool isLoading = true;
-  /*
-  List<dynamic> movies = [];
-  List<dynamic> filteredMovies = [];
-  */
   List<Movie> movies = [];
   List<Movie> filteredMovies = [];
   String searchQuery = '';
@@ -42,9 +38,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        /*
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        */
         final movieResponse = movieFromJson(response.body);
         setState(() {
           movies = movieResponse.data;
@@ -73,7 +66,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     setState(() {
       searchQuery = query.toLowerCase();
       filteredMovies = movies.where((movie) {
-        final title = (movie.title).toLowerCase();
+        final title = movie.title.toLowerCase();
         final genres = getGenres(movie.genreIds).toLowerCase();
         return title.contains(searchQuery) || genres.contains(searchQuery);
       }).toList();
@@ -82,13 +75,24 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final textColor =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+   final brightness = Theme.of(context).brightness;
+  final isDark = brightness == Brightness.dark;
+
+  // Definir los colores para tema claro y oscuro
+  final textColor = isDark ? Colors.white : Color(0xFF333333); // Gris oscuro en claro
+  final backgroundColor = isDark ? Color(0xFF121212) : Color(0xFFF7F7F7); // Gris oscuro en modo oscuro y gris muy suave en claro
+  final cardColor = isDark ? Color(0xFF1C1C1C) : Color(0xFFF3F3F3); // Gris oscuro para el modo oscuro y gris muy claro para el claro
+  final accentColor = isDark ? Color(0xFF4CAF50) : Color(0xFF00897B); // Verde vibrante para el oscuro y verde suave para el claro
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text(widget.screenTitle),
+        backgroundColor: isDark ? Colors.black : Color(0xFF00ACC1),
+        title: Text(
+          widget.screenTitle,
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -97,21 +101,26 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextField(
-                    onChanged: (value) {
-                      filterMovies(value);
-                    },
+                    onChanged: filterMovies,
                     decoration: InputDecoration(
                       labelText: 'Buscar por título o género',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
+                      prefixIcon: Icon(Icons.search, color: textColor),
+                      labelStyle: TextStyle(color: textColor),
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: textColor.withOpacity(0.5)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: textColor),
                       ),
                     ),
+                    style: TextStyle(color: textColor),
                   ),
                 ),
                 Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: filteredMovies.length,
                     itemBuilder: (context, index) {
                       final movie = filteredMovies[index];
@@ -119,11 +128,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       final genres = getGenres(movie.genreIds);
 
                       return Card(
+                        color: cardColor,
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        elevation: 4,
+                        elevation: 3,
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(16),
                           leading: movie.posterPath != null
@@ -134,8 +144,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error,
-                                            stackTrace) =>
+                                    errorBuilder: (_, __, ___) =>
                                         const Icon(Icons.image_not_supported),
                                   ),
                                 )
@@ -156,14 +165,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             children: [
                               Text(
                                 'Puntuación: ${movie.voteAverage} | Votos: ${movie.voteCount}',
-                                style:
-                                    TextStyle(color: textColor, fontSize: 14),
+                                style: TextStyle(color: textColor, fontSize: 14),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 'Año: $year | Género: $genres',
-                                style:
-                                    TextStyle(color: textColor, fontSize: 14),
+                                style: TextStyle(color: textColor, fontSize: 14),
                               ),
                             ],
                           ),
@@ -171,8 +178,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    MovieDetailScreen(movie: movie),
+                                builder: (_) => MovieDetailScreen(movie: movie),
                               ),
                             );
                           },

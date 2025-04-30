@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_base/widgets/actors_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_application_base/screens/actors_list.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ActorsScreen extends StatelessWidget {

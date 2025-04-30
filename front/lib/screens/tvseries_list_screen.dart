@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_base/models/tvshows.dart';
-import 'package:flutter_application_base/widgets/movie_detail_screen.dart';
 import 'package:flutter_application_base/helpers/helpers.dart';
-import 'package:flutter_application_base/widgets/tvseries_detail_screen.dart';
+import 'package:flutter_application_base/screens/tvseries_detail_screen.dart';
 import 'package:http/http.dart' as http;
 
 class SeriesListScreen extends StatefulWidget {

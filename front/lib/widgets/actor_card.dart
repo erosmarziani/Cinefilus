@@ -13,8 +13,22 @@ class ActorCard extends StatelessWidget {
     required this.onTap,
   });
 
+  String getPopularityLabel(double popularity) {
+    if (popularity > 7) {
+      return '🌟 Superestrella';
+    } else if (popularity > 6) {
+      return '🔥 Muy Popular';
+    } else if (popularity > 4) {
+      return '🌱 Emergente';
+    } else {
+      return '🔍 Poco Conocido';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String popularityText = getPopularityLabel(actor.popularity ?? 0.0);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       elevation: 8,
@@ -33,8 +47,8 @@ class ActorCard extends StatelessWidget {
                 child: Image.network(
                   "https://image.tmdb.org/t/p/w200${actor.profilePath}",
                   width: double.infinity,
-                  height: 50,
-                  fit: BoxFit.cover,
+                  height: 200,
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 12),
@@ -44,6 +58,14 @@ class ActorCard extends StatelessWidget {
                   color: textColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                popularityText,
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontStyle: FontStyle.italic,
                 ),
               ),
               const SizedBox(height: 8),

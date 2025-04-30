@@ -17,32 +17,35 @@ class BaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final isDark = brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : const Color(0xFF004D40);
+    final appBarColor = isDark ? Colors.black : Colors.cyan;
+    final drawerColor = isDark ? Colors.black54 : Colors.cyan;
 
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
-          elevation: 0,
-          centerTitle: true,
-          title: const Text(
-            'Cinéfilus ',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: appBarColor,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Cinéfilus ',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
+      ),
       drawer: Drawer(
-        backgroundColor: brightness == Brightness.dark ? Colors.black : Colors.cyan,
+        backgroundColor: drawerColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Container(
               height: 80,
               decoration: BoxDecoration(
-                color: brightness == Brightness.dark ? Colors.black54 : Colors.cyan,
+                color: drawerColor,
               ),
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: const Text(
-                'Menu',
+                'Menú',
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
@@ -90,7 +93,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    final textColor = brightness == Brightness.dark ? Colors.white : Colors.black;
+    final isDark = brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : const Color(0xFF004D40);
 
     final List<ProfileOption> profiles = [
       ProfileOption(
